@@ -41,8 +41,21 @@ never runs again for this file (re-activating the sheet afterwards does nothing)
 | `MainModule` | Standard module | Orchestrates the entire pivot build/validation/format pipeline. |
 | `CF` | Standard module | Builds Excel conditional-formatting rules on pivot fields from JSON rule specs. |
 | `PivotFilters` | Standard module | Applies pivot **label filters** and **value filters** from JSON rule specs. |
+| `DebugLog` | Standard module | Optionally captures pivot-generation diagnostics when developer logging is enabled. |
 | `JsonConverter` | Standard module | Third-party **VBA-JSON** library (Tim Hall, MIT license) + **VBA-UTC** date helpers. Parses/serializes JSON. |
 | `Progress` | UserForm | Modeless progress-bar dialog (`Bar`, `Border`, `Text`, `lblReport` controls) shown while the report builds. Has no code-behind — driven entirely from `MainModule`. |
+
+---
+
+## Diagnostic logging
+
+`DebugLog.writeLogs` is a public Boolean that defaults to `False`. With the default setting,
+the pivot generator does not create, buffer, or write a diagnostic log; the existing validation
+and critical-error message boxes remain the user-facing error path. For OISR troubleshooting, a
+developer can set `DebugLog.writeLogs = True` before reproducing the issue. In that mode, routine
+checkpoints and warnings are retained in memory, and
+`PublisherReport_Debug_<workbook>.log` is written to the current user's Downloads folder only
+when an error is encountered.
 
 ---
 
